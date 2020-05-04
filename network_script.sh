@@ -1,26 +1,35 @@
 #!/bin/bash
 
-#Script that outputs useful network info, then appends it to a textfile with the date as the name
-
-
+#This script is a collection of commands that will display useful network info and dump it to a file for you. It is to be run in your home directory.
 echo "Network interface configurations"
+echo "--------------------------------"
+#display network configs, including ip address
 ifconfig
-
+echo "--------------------------------"
 echo "IP routing table"
+echo "--------------------------------"
+#display ip routing tables
 netstat -r
-
+echo "--------------------------------"
 echo "Transmission protocol - Ports"
+echo "--------------------------------"
+#display ports
 netstat
+echo "--------------------------------"
+echo "DNS"
+echo "--------------------------------"
+#display dns
+cat /etc/resolv/conf
 
-echo "DNS info"
-cat /etc/resolv.conf
+#creates directory as needed for the output file...
+mkdir -p NetworkInformation
 
+#creates a file using the date as a filename...
+touch NetworkInformation/"$(date +"%m%d%Y")_NetworkInfo"
 
-#Create file with date as the name
-touch "$(date +"%m%d%Y")_NetworkInfo"
-
-#Append commands to the file we created
+#dumps previous info to file...
 ifconfig >> "$(date +"%m%d%Y")_NetworkInfo"
 netstat -r >> "$(date +"%m%d%Y")_NetworkInfo"
 netstat >> "$(date +"%m%d%Y")_NetworkInfo"
 cat /etc/resolv.conf >> "$(date +"%m%d%Y")_NetworkInfo"
+
